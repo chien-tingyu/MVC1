@@ -1,0 +1,75 @@
+﻿@model WebApplication2017_MVC_GuestBook.Models.UserTable
+
+@*  也可以寫成下面這樣：
+    @using WebApplication2017_MVC_GuestBook.Models     //註解： 宣告命名空間
+    @model UserTable         //註解： model（資料型態）
+*@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>........刪除前，請您確認一下內容（真的要刪除嗎？）
+    <br />請自行輸入 網址 http://xxxxxx/UserDB/Delete?_ID=1
+    <div>
+        <h4>UserTable</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <!-- 自己補上的。呈現這筆記錄的ID（主索引鍵）********** (start) -->
+            <dt>
+                @Html.DisplayNameFor(m => m.UserId)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(m => m.UserId) </font>
+            </dd>
+            <!-- 自己補上的。呈現這筆記錄的ID（主索引鍵）********** (end) -->
+
+            <dt>
+                @Html.DisplayNameFor(m => m.UserName)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(m => m.UserName) </font>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(m => m.UserSex)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(m => m.UserSex) </font>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(m => m.UserBirthDay)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(m => m.UserBirthDay) </font>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(m => m.UserMobilePhone)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(m => m.UserMobilePhone) </font>
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {<!-- 避免XSS、CSRF攻擊 -->
+            @Html.AntiForgeryToken()
+
+            <input type="submit" value="Delete（確認刪除）" />
+            <br /><br />
+            @Html.ActionLink("Back to List（回  列表）", "List")
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebApplication2017_MVC_GuestBook.Models.UserTable>
+
+@*  註解： 也可以寫成下面這樣：
+         @using WebApplication2017_MVC_GuestBook.Models     註解： 宣告命名空間
+         @model IEnumerable<UserTable>
+    註解： model（資料型態） *@
+
+@*
+    // 註解：請問 model與 Model兩個字（除了大小寫不同）有何差異？？
+    // @Model is "a property of the view" that refers to the model that was passed to the view from the controller.
+    // This property is strongly typed based on the data type specified in the @model directive at the top of the view.
+    // ***  @model occurs "only once" and specifies the "data type" of the model.
+    // ***  @Model allows you to reference "the value for the model" passed to the view.
+
+    // (4) 文章說明： When To Use IEnumerable, ICollection, IList And List（文章後面有一張圖）
+    // http://www.claudiobernasconi.ch/2013/07/22/when-to-use-ienumerable-icollection-ilist-and-list/
+    //  IEnumerable -- 只用於「唯讀」的資料展示。
+    //  ICollection -- 您想修改集合或關心其大小(size)。
+    //  IList -- 您想要修改集合，並關心集合中元素的排序和/或位置。
+
+        // (5) https://stackoverflow.com/questions/2876616/returning-ienumerablet-vs-iqueryablet
+        // This is quite an important difference, and working on IQueryable<T> can in many cases
+        // save you from returning too many rows from the database.
+        // Another prime example is doing paging（分頁）:
+        // If you use Take and Skip on IQueryable, you will "only get（只拿你要的）" the number of rows requested;
+        // doing that on an IEnumerable<T> will cause "all of（全部 / 假分頁）" your rows to be loaded in memory.
+
+        // (5-1) To return IQueryable<T> if you want to enable the developer using your method
+        //          to refine（改造） the query you return " before executing".
+        // If you want to transport just "a set of Objects" to enumerate over, just take IEnumerable.
+
+        // (5-2) Imagine an IQueryable as that what it is, a "query" for data (which you can refine（改造） if you want to)
+        // An IEnumerable is a set of objects (which has already been received or was created) over which you can enumerate.
+*@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Search</title>
+</head>
+<body>
+    // 請透過 List檢視畫面，來執行搜尋的成果。<br />
+    // 錯誤！ 直接在網址輸入 http://xxxxxx/UserDB/Search?_SearchWord=MVC<br />
+    // 錯誤！ 直接在網址輸入 http://xxxxxx/UserDB/Search/MVC  （需要修改 /App_Start目錄下的  Route設定）<br />
+    // 自行輸入網址，需改成 [HttpGet]才行。請看下面的 Search3動作。<br />
+    <p>
+        @Html.ActionLink("Create New（新增）", "Create")   <br /><br />
+
+        <h3>Search -- 您搜尋的關鍵字是 -- <font color="red"> @ViewData["SW"] </font></h3>
+    </p>
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserSex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserBirthDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserMobilePhone)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserSex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserBirthDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserMobilePhone)
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>
